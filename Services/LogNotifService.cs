@@ -32,7 +32,7 @@ namespace HR_Service.Services
             }
 
             var notifications = await _dbContext.LogNotifications
-                .OrderByDescending(n => n.CreatedAt)
+                .OrderByDescending(n => n.created_at)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -54,8 +54,8 @@ namespace HR_Service.Services
             if (Guid.TryParse(employeeId, out Guid employeeGuid))
             {
                 var notifications = await _dbContext.LogNotifications
-                    .Where(n => n.EmployeeId == employeeGuid)
-                    .OrderByDescending(n => n.CreatedAt)
+                    .Where(n => n.employee_id == employeeGuid)
+                    .OrderByDescending(n => n.created_at)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();
@@ -79,8 +79,8 @@ namespace HR_Service.Services
         public async Task<LogNotificationDTO> CreateNotificationAsync(CreateLogNotificationDTO dto)
         {
             var notification = _mapper.Map<LogNotification>(dto);
-            notification.CreatedAt = DateTime.UtcNow;
-            notification.UpdatedAt = DateTime.UtcNow;
+            notification.created_at = DateTime.UtcNow;
+            notification.updated_at = DateTime.UtcNow;
 
             await _dbContext.LogNotifications.AddAsync(notification);
             await _dbContext.SaveChangesAsync();
@@ -99,9 +99,9 @@ namespace HR_Service.Services
                 throw new KeyNotFoundException($"Notification with id {id} not found.");
             }
 
-            notification.NotificationTitle = dto.NotificationTitle ?? notification.NotificationTitle;
-            notification.NotificationBody = dto.NotificationBody ?? notification.NotificationBody;
-            notification.UpdatedAt = DateTime.UtcNow;
+            notification.notification_title = dto.notification_title ?? notification.notification_title;
+            notification.notification_body = dto.notification_body ?? notification.notification_body;
+            notification.updated_at = DateTime.UtcNow;
 
             await _dbContext.SaveChangesAsync();
 

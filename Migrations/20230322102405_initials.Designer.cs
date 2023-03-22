@@ -3,6 +3,7 @@ using System;
 using HR_Service.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HR_Service.Migrations
 {
     [DbContext(typeof(ApiDBContext))]
-    partial class ApiDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230322102405_initials")]
+    partial class initials
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,36 +23,6 @@ namespace HR_Service.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("HR_Service.Models.Enitty.Position", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("code")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)");
-
-                    b.Property<bool>("is_active")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("level")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("code")
-                        .IsUnique();
-
-                    b.ToTable("Position");
-                });
 
             modelBuilder.Entity("HR_Service.Models.LogAudit", b =>
                 {
@@ -82,35 +54,6 @@ namespace HR_Service.Migrations
                     b.HasKey("id");
 
                     b.ToTable("log_audit", (string)null);
-                });
-
-            modelBuilder.Entity("HR_Service.Models.Masters.LogNotification", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("created_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("deleted_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("employee_id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("notification_body")
-                        .HasColumnType("text");
-
-                    b.Property<string>("notification_title")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("updated_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("id");
-
-                    b.ToTable("LogNotifications");
                 });
 
             modelBuilder.Entity("HR_Service.Models.User", b =>

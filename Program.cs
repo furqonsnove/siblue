@@ -5,6 +5,8 @@ using HR_Service.Data;
 using HR_Service.Services;
 using Npgsql;
 using StackExchange.Redis;
+using HR_Service.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,10 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<ApiDBContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("HRServiceDB"));
+});
 
 
 var app = builder.Build();

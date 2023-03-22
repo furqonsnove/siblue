@@ -48,7 +48,7 @@ namespace HR_Service.Controllers
         {
             var notification = await _notificationService.CreateNotificationAsync(dto);
 
-            return CreatedAtAction(nameof(GetNotificationAsync), new { id = notification.Id }, notification);
+            return CreatedAtAction(nameof(GetNotificationAsync), new { id = notification.id }, notification);
         }
 
         [HttpPut("{id}")]

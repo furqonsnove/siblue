@@ -1,4 +1,0 @@
-namespace HR_Service
-{
-    
-}
