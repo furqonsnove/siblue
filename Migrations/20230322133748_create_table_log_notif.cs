@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HR_Service.Migrations
 {
-    public partial class create_log_notif_with_usermanagement : Migration
+    public partial class create_table_log_notif : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -1,5 +1,8 @@
 using System.Data;
 using HR_Service.Config;
+using HR_Service.Contract;
+using HR_Service.Data;
+using HR_Service.Services;
 using Npgsql;
 using StackExchange.Redis;
 
@@ -17,12 +20,19 @@ builder.Services.AddStackExchangeRedisCache(options => {
 var connectionString = builder.Configuration.GetConnectionString("HRServiceDB");
 builder.Services.AddTransient<NpgsqlConnection>(_ => new NpgsqlConnection(connectionString));
 
+//Add DB Context
+builder.Services.AddDbContext<ApiDBContext>();
 
 // Add services to the container.
+builder.Services.AddScoped<ILogNotifService, LogNotifService>();
+builder.Services.AddAutoMapper(typeof(MasterMaps).Assembly);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 

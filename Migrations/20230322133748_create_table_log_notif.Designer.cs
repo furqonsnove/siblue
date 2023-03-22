@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HR_Service.Migrations
 {
     [DbContext(typeof(ApiDBContext))]
-    [Migration("20230322104413_create_log_notif_with_usermanagement")]
-    partial class create_log_notif_with_usermanagement
+    [Migration("20230322133748_create_table_log_notif")]
+    partial class create_table_log_notif
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

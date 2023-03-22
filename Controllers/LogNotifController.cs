@@ -6,10 +6,10 @@ namespace HR_Service.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LogNotifController : ControllerBase
+    public class LogNotifControllers : ControllerBase
     {
         private readonly ILogNotifService _notificationService;
-        public LogNotifController(ILogNotifService notificationService)
+        public LogNotifControllers(ILogNotifService notificationService)
         {
             _notificationService = notificationService;
         }

@@ -28,7 +28,7 @@ namespace HR_Service.Services
             var cachedNotifications = await _redis.GetStringAsync(cacheKey);
             if (cachedNotifications != null)
             {
-                return _mapper.Map<List<LogNotificationDTO>>(cachedNotifications);
+                return _mapper.Map<List<LogNotificationDTO>>(JsonConvert.DeserializeObject(cachedNotifications));
             }
 
             var notifications = await _dbContext.LogNotifications
@@ -37,7 +37,7 @@ namespace HR_Service.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            await _redis.SetStringAsync(cacheKey, notifications.ToString());
+            await _redis.SetStringAsync(cacheKey, JsonConvert.SerializeObject(notifications));
 
             return _mapper.Map<List<LogNotificationDTO>>(notifications);
         }
@@ -48,7 +48,7 @@ namespace HR_Service.Services
             var cachedNotifications = await _redis.GetStringAsync(cacheKey);
             if (cachedNotifications != null)
             {
-                return _mapper.Map<List<LogNotificationDTO>>(cachedNotifications);
+                return _mapper.Map<List<LogNotificationDTO>>(JsonConvert.DeserializeObject(cachedNotifications));
             }
 
             if (Guid.TryParse(employeeId, out Guid employeeGuid))
