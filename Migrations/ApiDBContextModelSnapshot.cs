@@ -22,17 +22,44 @@ namespace HR_Service.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-<<<<<<< HEAD
-            modelBuilder.Entity("HR_Service.Models.User", b =>
-=======
-            modelBuilder.Entity("HR_Service.Models.log_audit", b =>
->>>>>>> origin/rahadianaldi/log_audit
+            modelBuilder.Entity("HR_Service.Models.LogAudit", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-<<<<<<< HEAD
+                    b.Property<string>("activity")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("created_at")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("deleted_at")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("detail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("modul")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("updated_at")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("id");
+
+                    b.ToTable("log_audit", (string)null);
+                });
+
+            modelBuilder.Entity("HR_Service.Models.User", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("created_at")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
@@ -51,41 +78,17 @@ namespace HR_Service.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("pin")
-=======
-                    b.Property<string>("activity")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("created_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("deleted_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("detail")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("modul")
->>>>>>> origin/rahadianaldi/log_audit
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("updated_at")
-<<<<<<< HEAD
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-=======
->>>>>>> origin/rahadianaldi/log_audit
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("id");
 
-<<<<<<< HEAD
                     b.ToTable("users", (string)null);
-=======
-                    b.ToTable("log_audit");
->>>>>>> origin/rahadianaldi/log_audit
                 });
 #pragma warning restore 612, 618
         }

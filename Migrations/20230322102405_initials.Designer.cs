@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HR_Service.Migrations
 {
     [DbContext(typeof(ApiDBContext))]
-    [Migration("20230322091455_create_table_log_audit")]
-    partial class create_table_log_audit
+    [Migration("20230322102405_initials")]
+    partial class initials
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace HR_Service.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("HR_Service.Models.log_audit", b =>
+            modelBuilder.Entity("HR_Service.Models.LogAudit", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +53,44 @@ namespace HR_Service.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("log_audit");
+                    b.ToTable("log_audit", (string)null);
+                });
+
+            modelBuilder.Entity("HR_Service.Models.User", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("created_at")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("deleted_at")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("password_expired_at")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("pin")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("updated_at")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("id");
+
+                    b.ToTable("users", (string)null);
                 });
 #pragma warning restore 612, 618
         }
