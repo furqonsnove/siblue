@@ -7,29 +7,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HR_Service.Data;
 using HR_Service.Models;
-using HR_Service.models;
 
 namespace HR_Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BackupController : ControllerBase
+    public class ListBackupController : ControllerBase
     {
         private readonly ApiDBContext _context;
 
-        public BackupController(ApiDBContext context)
+        public ListBackupController(ApiDBContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Backup>>> GetBackups()
+        public async Task<ActionResult<IEnumerable<ListBackup>>> GetListBackups()
         {
             try
             {
-                var backups = await _context.backup.ToListAsync();
+                var list_backups = await _context.list_backup.ToListAsync();
 
-                return Ok(backups);
+                return Ok(list_backups);
             }
             catch (Exception exception)
             {
@@ -38,18 +37,18 @@ namespace HR_Service.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Backup>> GetBackup(Guid id)
+        public async Task<ActionResult<ListBackup>> GetListBackup(Guid id)
         {
             try
             {
-                var backup = await _context.backup.FindAsync(id);
+                var list_backup = await _context.list_backup.FindAsync(id);
 
-                if (backup == null)
+                if (list_backup == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(backup);
+                return Ok(list_backup);
             }
             catch (Exception exception)
             {
@@ -58,14 +57,14 @@ namespace HR_Service.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Backup>> CreateBackup(Backup backup)
+        public async Task<ActionResult<ListBackup>> CreateListBackup(ListBackup list_backup)
         {
             try
             {
-                _context.backup.Add(backup);
+                _context.list_backup.Add(list_backup);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetBackup), new { id = backup.id }, null);
+                return CreatedAtAction(nameof(GetListBackup), new { id = list_backup.id }, null);
             }
             catch (Exception exception)
             {
@@ -74,23 +73,23 @@ namespace HR_Service.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateBackup(Guid id, Backup backup)
+        public async Task<ActionResult> UpdateListBackup(Guid id, ListBackup list_backup)
         {
             try
             {
-                if (id != backup.id)
+                if (id != list_backup.id)
                 {
                     return Conflict();
                 }
 
-                var backup_to_update = await _context.backup.FindAsync(id);
+                var backup_to_update = await _context.list_backup.FindAsync(id);
 
                 if (backup_to_update == null)
                 {
                     return NotFound();
                 }
 
-                _context.Entry(backup).State = EntityState.Modified;
+                _context.Entry(list_backup).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();
 
@@ -103,18 +102,18 @@ namespace HR_Service.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteBackup(Guid id)
+        public async Task<ActionResult> DeleteListBackup(Guid id)
         {
             try
             {
-                var backup = await _context.backup.FindAsync(id);
+                var list_backup = await _context.list_backup.FindAsync(id);
 
-                if (backup == null)
+                if (list_backup == null)
                 {
                     return NotFound();
                 }
 
-                _context.backup.Remove(backup);
+                _context.list_backup.Remove(list_backup);
                 await _context.SaveChangesAsync();
 
                 return NoContent();

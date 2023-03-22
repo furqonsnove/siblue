@@ -1,7 +1,8 @@
 
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using HR_Service.Models;
-using HR_Service.models;
+using HR_Service.Models.Enitty;
+using HR_Service.Models.EntityBuilders;
 
 namespace HR_Service.Data
 {
@@ -21,9 +22,12 @@ namespace HR_Service.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Position> positions => Set<Position>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            new PositionBuilder().Configure(modelBuilder.Entity<Position>());
             modelBuilder.Entity<LogAudit>(entity =>
             {
                 entity.HasKey(e => e.id);
@@ -36,7 +40,7 @@ namespace HR_Service.Data
 
                 entity.ToTable("users");
             });
-            modelBuilder.Entity<Backup>(entity =>
+            modelBuilder.Entity<ListBackup>(entity =>
             {
                 entity.HasKey(e => e.id);
 
@@ -54,8 +58,8 @@ namespace HR_Service.Data
 
         public virtual DbSet<LogAudit> log_audit { get; set; }
 
-        public virtual DbSet<Backup> backup { get; set; }
-
         public virtual DbSet<PaidLeaveApplication> paid_leave_application { get; set; }
+
+        public virtual DbSet<ListBackup> list_backup { get; set; }
     }
 }

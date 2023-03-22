@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace HR_Service.models
+namespace HR_Service.Models
 {
     public class PaidLeaveApplication
     {

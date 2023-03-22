@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HR_Service.Data;
 using HR_Service.Models;
-using HR_Service.models;
 
 namespace HR_Service.Controllers
 {
