@@ -10,7 +10,7 @@ namespace HR_Service.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "LogNotifications",
+                name: "log_notif",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -23,7 +23,7 @@ namespace HR_Service.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LogNotifications", x => x.id);
+                    table.PrimaryKey("PK_log_notif", x => x.id);
                 });
         }
 
