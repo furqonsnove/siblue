@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HR_Service.Data;
 using HR_Service.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace HR_Service.Controllers
 {
@@ -23,13 +24,43 @@ namespace HR_Service.Controllers
 
         // GET: api/log_audit
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LogAudit>>> GetLogAudit()
+        public async Task<ActionResult<IEnumerable<LogAudit>>> GetLogAudit(string? search, int page, int page_size, string? modul)
         {
           if (_context.log_audit == null)
           {
               return NotFound();
           }
-            return await _context.log_audit.ToListAsync();
+            // Filter By Module, Get All if modul is null or empty string and order it by created_at
+            var resp = string.IsNullOrEmpty(modul) ? _context.log_audit.OrderBy(e => e.created_at) : _context.log_audit.Where(e => e.modul == modul).OrderBy(e => e.created_at);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+
+                return Ok(new
+                {
+                    message = "Success",
+                    status_code = 200,
+                    data = resp
+                    .Where(e =>
+                        e.modul.Contains(search) ||
+                        e.activity.Contains(search) ||
+                        e.detail.Contains(search))
+                    .Skip((page - 1) * page_size)
+                    .Take(page_size)
+                    .ToListAsync()
+                    .Result
+                });
+            }
+            return Ok(new
+            {
+                message = "Success",
+                status_code = 200,
+                data = resp
+                    .Skip((page - 1) * page_size)
+                    .Take(page_size)
+                    .ToListAsync()
+                    .Result
+            });
         }
 
         // GET: api/LogAudit/5
@@ -93,7 +124,11 @@ namespace HR_Service.Controllers
             _context.log_audit.Add(log_audit);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLogAudit", new { id = log_audit.id }, log_audit);
+            return Ok(new { 
+                message = "Success", 
+                status_code = 200, 
+                data = new { } 
+            });
         }
 
         // DELETE: api/LogAudit/5
