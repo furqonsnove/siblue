@@ -1,9 +1,10 @@
 using HR_Service.Data;
+using HR_Service.DTO;
 using HR_Service.Models.Enitty;
 using HR_Service.Services.Positions.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HR_Service.Controllers.Positions;
+namespace HR_Service.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -43,7 +44,7 @@ public class PositionController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<ActionResult<Position>> PostPosition([FromBody] PositionInput input)
+    public async Task<ActionResult<Position>> PostPosition([FromBody] PositionDTO input)
     {
         try
         {
@@ -57,7 +58,7 @@ public class PositionController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<Position>> PutPosition(Guid id, [FromBody] PositionInput input)
+    public async Task<ActionResult<Position>> PutPosition(Guid id, [FromBody] PositionDTO input)
     {
         try
         {

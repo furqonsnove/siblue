@@ -1,5 +1,6 @@
-using HR_Service.Controllers.Positions;
+using HR_Service.Controllers;
 using HR_Service.Data;
+using HR_Service.DTO;
 using HR_Service.Models;
 using HR_Service.Models.Enitty;
 using HR_Service.Services.Positions.Interfaces;
@@ -32,7 +33,7 @@ public class PositionService : IPosition
         return result;
     }
 
-    public async Task<Position> Insert(PositionInput input)
+    public async Task<Position> Insert(PositionDTO input)
     {
         if (await IsPositionCodeExist(input.code))
             throw new Exception("Position code already exists");
@@ -59,7 +60,7 @@ public class PositionService : IPosition
 
     }
 
-    public Task<Position> Update(Guid id, PositionInput input)
+    public Task<Position> Update(Guid id, PositionDTO input)
     {
         // check code exist or not
         // check if there is any employee that use that position if input.is_active=false
