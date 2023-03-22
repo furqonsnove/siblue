@@ -6,9 +6,9 @@ namespace HR_Service.Services.Positions.Interfaces;
 
 public interface IPosition
 {
-  Task<IEnumerable<Position>> GetAll();
-  Task<Position> GetById(Guid id);
-  Task<Position> Insert(PositionInput position);
-  Task<Position> Update(Guid id, PositionInput position);
-  Task<Position> UpdateStatus(Guid id, bool is_active);
+    Task<IEnumerable<Position>> GetAll(string search);
+    Task<Position> GetById(Guid id);
+    Task<Position> Insert(PositionInput position);
+    Task<Position> Update(Guid id, PositionInput position);
+    Task<Position> UpdateStatus(Guid id, bool is_active);
 }

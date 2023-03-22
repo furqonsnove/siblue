@@ -9,80 +9,80 @@ namespace HR_Service.Controllers.Positions;
 [ApiController]
 public class PositionController : ControllerBase
 {
-  private readonly IPosition _position;
+    private readonly IPosition _position;
 
-  public PositionController(IPosition position)
-  {
-    _position = position;
-  }
+    public PositionController(IPosition position)
+    {
+        _position = position;
+    }
 
-  [HttpGet]
-  public async Task<ActionResult<IEnumerable<Position>>> GetPostions()
-  {
-    try
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Position>>> GetPositions([FromQuery] string search = "")
     {
-      return Ok(await _position.GetAll());
+        try
+        {
+            return Ok(await _position.GetAll(search));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
-    catch (Exception ex)
-    {
-      return BadRequest(ex.Message);
-    }
-  }
 
-  [HttpGet("{id}")]
-  public async Task<ActionResult<Position>> GetPosition(Guid id)
-  {
-    try
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Position>> GetPosition(Guid id)
     {
-      return Ok(await _position.GetById(id));
-    }
-    catch (System.Exception)
-    {
+        try
+        {
+            return Ok(await _position.GetById(id));
+        }
+        catch (System.Exception)
+        {
 
-      return NotFound();
+            return NotFound();
+        }
     }
-  }
-  [HttpPost]
-  public async Task<ActionResult<Position>> PostPosition([FromBody] PositionInput input)
-  {
-    try
+    [HttpPost]
+    public async Task<ActionResult<Position>> PostPosition([FromBody] PositionInput input)
     {
-      var result = await _position.Insert(input);
-      return Created("GetPosition", result);
+        try
+        {
+            var result = await _position.Insert(input);
+            return Created("GetPosition", result);
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
-    catch (System.Exception ex)
-    {
-      return BadRequest(ex.Message);
-    }
-  }
 
-  [HttpPut("{id}")]
-  public async Task<ActionResult<Position>> PutPosition(Guid id, [FromBody] PositionInput input)
-  {
-    try
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Position>> PutPosition(Guid id, [FromBody] PositionInput input)
     {
-      await _position.Update(id, input);
-      return Ok();
+        try
+        {
+            await _position.Update(id, input);
+            return Ok();
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
-    catch (System.Exception ex)
-    {
-      return BadRequest(ex.Message);
-    }
-  }
 
-  [HttpPut("updateStatus/{id}")]
-  public async Task<ActionResult<Position>> PutStatus(Guid id, [FromBody] bool is_active)
-  {
-    try
+    [HttpPut("updateStatus/{id}")]
+    public async Task<ActionResult<Position>> PutStatus(Guid id, [FromBody] bool is_active)
     {
-      await _position.UpdateStatus(id, is_active);
-      return Ok();
+        try
+        {
+            await _position.UpdateStatus(id, is_active);
+            return Ok();
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
-    catch (System.Exception ex)
-    {
-      return BadRequest(ex.Message);
-    }
-  }
 
 
 

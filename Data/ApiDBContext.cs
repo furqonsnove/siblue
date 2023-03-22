@@ -10,7 +10,6 @@ namespace HR_Service.Data
     {
         protected readonly IConfiguration Configuration;
 
-        public DbSet<Position>? Positions { get; set; }
         public DbSet<LogNotification>? LogNotifications { get; set; }
 
         public DbSet<User> Users { get; set; }
