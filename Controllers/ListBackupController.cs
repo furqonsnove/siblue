@@ -141,6 +141,21 @@ namespace HR_Service.Controllers
             }
         }
 
+        [HttpPost("Matrix")]
+        public async Task<ActionResult<IEnumerable<ListBackup>>> CreateListBackupMatrix(ListBackupMatrix list_backup_matrix)
+        {
+            try
+            {
+                IEnumerable<ListBackup> list_backups = await _list_backup_service.CreateListBackupMatrix(list_backup_matrix);
+
+                return CreatedAtAction(nameof(GetListBackups), new { ids = list_backups.ToList().Select(x => x.id) }, null);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.InnerException);
+            }
+        }
+
         [HttpGet("Matrix/{nik}")]
         public async Task<ActionResult<ListBackupMatrix>> GetListBackupMatrixByNik(string nik)
         {

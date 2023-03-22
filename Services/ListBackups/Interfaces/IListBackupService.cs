@@ -8,6 +8,7 @@ namespace HR_Service.Services.ListBackups.Interfaces
     {
         Task<IEnumerable<ListBackupMatrix>> GetAllListBackupMatrix();
         Task<ListBackupMatrix?> GetListBackupMatrixByNik(string nik);
+        Task<IEnumerable<ListBackup>> CreateListBackupMatrix(ListBackupMatrix list_backup_matrix);
     }
 }
 

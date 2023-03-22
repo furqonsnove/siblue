@@ -39,6 +39,24 @@ namespace HR_Service.Services.ListBackups.Implementations
 
             return result;
         }
+
+        public async Task<IEnumerable<ListBackup>> CreateListBackupMatrix(ListBackupMatrix list_backup_matrix)
+        {
+            List<ListBackup> list_backups_to_create = new List<ListBackup>();
+
+            list_backup_matrix.backup_employees.ForEach(x =>
+            {
+                ListBackup list_backup = new ListBackup() { employee_id = list_backup_matrix.employee_id, employee_backup_id = x.employee_id, level = x.level };
+                _api_db_context.list_backup.Add(list_backup);
+
+                list_backups_to_create.Add(list_backup);
+
+            });
+
+            await _api_db_context.SaveChangesAsync();
+
+            return list_backups_to_create;
+        }
     }
 }
 
