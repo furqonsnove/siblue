@@ -146,6 +146,7 @@ namespace HR_Service.Controllers
         {
             try
             {
+                // TODO: Check if employee is exist
                 IEnumerable<ListBackup> list_backups = await _list_backup_service.CreateListBackupMatrix(list_backup_matrix);
 
                 return CreatedAtAction(nameof(GetListBackups), new { ids = list_backups.ToList().Select(x => x.id) }, null);
@@ -169,6 +170,34 @@ namespace HR_Service.Controllers
                 }
 
                 return Ok(list_backup_matrix);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.InnerException);
+            }
+        }
+
+        [HttpPut("Matrix/{employee_id}")]
+        public async Task<ActionResult> UpdateListBackupMatrix(Guid employee_id, ListBackupMatrix list_backup_matrix)
+        {
+            try
+            {
+                if (employee_id != list_backup_matrix.employee_id)
+                {
+                    return Conflict();
+                }
+
+                // TODO: Check if employee is exist
+                IEnumerable<ListBackup> list_backups = await _list_backup_service.GetAllListBackupByEmployeeId(employee_id);
+
+                if (list_backups == null || !list_backups.Any())
+                {
+                    return NotFound();
+                }
+
+                await _list_backup_service.UpdateListBackupMatrix(employee_id, list_backup_matrix);
+
+                return NoContent();
             }
             catch (Exception exception)
             {

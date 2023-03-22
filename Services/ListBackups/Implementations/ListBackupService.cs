@@ -17,6 +17,10 @@ namespace HR_Service.Services.ListBackups.Implementations
             _api_db_context = api_db_context;
         }
 
+        public async Task<IEnumerable<ListBackup>> GetAllListBackupByEmployeeId(Guid id) {
+            return await _api_db_context.list_backup.AsNoTracking().Where(x => x.employee_id == id).ToListAsync();
+        }
+
         public async Task<IEnumerable<ListBackupMatrix>> GetAllListBackupMatrix()
         {
             IEnumerable<ListBackup> list_backups = await _api_db_context.list_backup.AsNoTracking().ToListAsync();
@@ -56,6 +60,15 @@ namespace HR_Service.Services.ListBackups.Implementations
             await _api_db_context.SaveChangesAsync();
 
             return list_backups_to_create;
+        }
+
+        public async Task UpdateListBackupMatrix(Guid employee_id, ListBackupMatrix list_backup_matrix)
+        {
+            _api_db_context.list_backup.RemoveRange(_api_db_context.list_backup.Where(x => x.employee_id == employee_id));
+
+            await CreateListBackupMatrix(list_backup_matrix);
+
+            return;
         }
     }
 }
