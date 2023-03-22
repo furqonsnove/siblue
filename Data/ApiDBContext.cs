@@ -46,11 +46,19 @@ namespace HR_Service.Data
 
                 entity.ToTable("list_backup");
             });
+            modelBuilder.Entity<PaidLeaveApplication>(entity =>
+            {
+                entity.HasKey(e => e.id);
+
+                entity.ToTable("paid_leave_application");
+            });
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
         public virtual DbSet<LogAudit> log_audit { get; set; }
+
+        public virtual DbSet<PaidLeaveApplication> paid_leave_application { get; set; }
 
         public virtual DbSet<ListBackup> list_backup { get; set; }
     }
