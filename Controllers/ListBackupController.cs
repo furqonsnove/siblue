@@ -30,7 +30,7 @@ namespace HR_Service.Controllers
         {
             try
             {
-                var list_backups = await _context.list_backup.ToListAsync();
+                IEnumerable<ListBackup> list_backups = await _context.list_backup.ToListAsync();
 
                 return Ok(list_backups);
             }
@@ -45,7 +45,7 @@ namespace HR_Service.Controllers
         {
             try
             {
-                var list_backup = await _context.list_backup.FindAsync(id);
+                ListBackup? list_backup = await _context.list_backup.FindAsync(id);
 
                 if (list_backup == null)
                 {
@@ -86,7 +86,7 @@ namespace HR_Service.Controllers
                     return Conflict();
                 }
 
-                var backup_to_update = await _context.list_backup.FindAsync(id);
+                ListBackup? backup_to_update = await _context.list_backup.FindAsync(id);
 
                 if (backup_to_update == null)
                 {
@@ -110,7 +110,7 @@ namespace HR_Service.Controllers
         {
             try
             {
-                var list_backup = await _context.list_backup.FindAsync(id);
+                ListBackup? list_backup = await _context.list_backup.FindAsync(id);
 
                 if (list_backup == null)
                 {
@@ -129,11 +129,31 @@ namespace HR_Service.Controllers
         }
 
         [HttpGet("Matrix")]
-        public async Task<ActionResult<IEnumerable<ListBackupMatrix>>> GetListBackupsMatrix()
+        public async Task<ActionResult<IEnumerable<ListBackupMatrix>>> GetAllListBackupMatrix()
         {
             try
             {
-                return Ok(await _list_backup_service.GetListBackupMatrix());
+                return Ok(await _list_backup_service.GetAllListBackupMatrix());
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.InnerException);
+            }
+        }
+
+        [HttpGet("Matrix/{nik}")]
+        public async Task<ActionResult<ListBackupMatrix>> GetListBackupMatrixByNik(string nik)
+        {
+            try
+            {
+                ListBackupMatrix? list_backup_matrix = await _list_backup_service.GetListBackupMatrixByNik(nik);
+
+                if (list_backup_matrix == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(list_backup_matrix);
             }
             catch (Exception exception)
             {

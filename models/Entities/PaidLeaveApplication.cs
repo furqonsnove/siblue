@@ -33,12 +33,11 @@ namespace HR_Service.Models
         public DateTime expired_at { get; set; }
 
         [Required]
-        public DateTime created_at { get; set; }
+        public DateTime created_at { get; set; } = DateTime.UtcNow.AddHours(7);
 
         [Required]
-        public DateTime updated_at { get; set; }
+        public DateTime updated_at { get; set; } = DateTime.UtcNow.AddHours(7);
 
-        [Required]
         public DateTime? deleted_at { get; set; }
     }
 }

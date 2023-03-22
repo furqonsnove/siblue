@@ -17,13 +17,25 @@ namespace HR_Service.Services.ListBackups.Implementations
             _api_db_context = api_db_context;
         }
 
-        public async Task<IEnumerable<ListBackupMatrix>> GetListBackupMatrix()
+        public async Task<IEnumerable<ListBackupMatrix>> GetAllListBackupMatrix()
         {
-            var list_backups = await _api_db_context.list_backup.AsNoTracking().ToListAsync();
+            IEnumerable<ListBackup> list_backups = await _api_db_context.list_backup.AsNoTracking().ToListAsync();
 
-            var result = list_backups.GroupBy(x => x.employee_id)
+            IEnumerable<ListBackupMatrix> result = list_backups.GroupBy(x => x.employee_id)
                 .Select(r => new ListBackupMatrix
                 (r.Key, r.Select(i => new ListBackupBackupEmployees(i.employee_backup_id, i.level)).ToList()));
+
+            return result;
+        }
+
+        public async Task<ListBackupMatrix?> GetListBackupMatrixByNik(string nik)
+        {
+            // TODO : Employee module
+            IEnumerable<ListBackup> list_backups = await _api_db_context.list_backup.AsNoTracking().Where(x => x.level == 1).ToListAsync();
+
+            ListBackupMatrix? result = list_backups.GroupBy(x => x.employee_id)
+                .Select(r => new ListBackupMatrix
+                (r.Key, r.Select(i => new ListBackupBackupEmployees(i.employee_backup_id, i.level)).ToList())).FirstOrDefault();
 
             return result;
         }
