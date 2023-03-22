@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 ﻿using Microsoft.EntityFrameworkCore;
 using HR_Service.Models;
+=======
+﻿using HR_Service.Models;
+using Microsoft.EntityFrameworkCore;
+>>>>>>> origin/rahadianaldi/log_audit
 
 namespace HR_Service.Data
 {
-    public class ApiDBContext : DbContext
+    public partial class ApiDBContext : DbContext
     {
         protected readonly IConfiguration Configuration;
 
@@ -18,6 +23,7 @@ namespace HR_Service.Data
             options.UseNpgsql(Configuration.GetConnectionString("HRServiceDB"));
         }
 
+<<<<<<< HEAD
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,5 +39,20 @@ namespace HR_Service.Data
         }
 
 
+=======
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<LogAudit>(entity =>
+            {
+                entity.HasKey(e => e.id);
+
+                entity.ToTable("log_audit");
+            });
+        }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public virtual DbSet<LogAudit> log_audit { get; set; }
+>>>>>>> origin/rahadianaldi/log_audit
     }
 }
