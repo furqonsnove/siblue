@@ -24,68 +24,6 @@ namespace HR_Service.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("HR_Service.Models.Enitty.Position", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("code")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)");
-
-                    b.Property<bool>("is_active")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("level")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("code")
-                        .IsUnique();
-
-                    b.ToTable("Position");
-                });
-
-            modelBuilder.Entity("HR_Service.Models.LogAudit", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("activity")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("created_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("deleted_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("detail")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("modul")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("updated_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("id");
-
-                    b.ToTable("log_audit", (string)null);
-                });
-
             modelBuilder.Entity("HR_Service.Models.Masters.LogNotification", b =>
                 {
                     b.Property<Guid>("id")
@@ -112,45 +50,9 @@ namespace HR_Service.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("LogNotifications");
+                    b.ToTable("log_notif");
                 });
 
-            modelBuilder.Entity("HR_Service.Models.User", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("created_at")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("deleted_at")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("password_expired_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("pin")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("updated_at")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("id");
-
-                    b.ToTable("users", (string)null);
-                });
 #pragma warning restore 612, 618
         }
     }

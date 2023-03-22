@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HR_Service.Models.Masters
 {
+    [Table("log_notif")]
     public class LogNotification
     {
         public Guid id { get; set; }

@@ -9,26 +9,8 @@ namespace HR_Service.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_positions",
-                table: "positions");
-
-            migrationBuilder.RenameTable(
-                name: "positions",
-                newName: "Position");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_positions_code",
-                table: "Position",
-                newName: "IX_Position_code");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Position",
-                table: "Position",
-                column: "id");
-
             migrationBuilder.CreateTable(
-                name: "LogNotifications",
+                name: "log_notif",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -41,32 +23,14 @@ namespace HR_Service.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LogNotifications", x => x.id);
+                    table.PrimaryKey("PK_log_notif", x => x.id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "LogNotifications");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Position",
-                table: "Position");
-
-            migrationBuilder.RenameTable(
-                name: "Position",
-                newName: "positions");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Position_code",
-                table: "positions",
-                newName: "IX_positions_code");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_positions",
-                table: "positions",
-                column: "id");
+                name: "log_notif");
         }
     }
 }
