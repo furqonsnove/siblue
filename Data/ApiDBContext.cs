@@ -28,7 +28,6 @@ namespace HR_Service.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             new PositionBuilder().Configure(modelBuilder.Entity<Position>());
             modelBuilder.Entity<LogAudit>(entity =>
             {
@@ -42,6 +41,14 @@ namespace HR_Service.Data
 
                 entity.ToTable("users");
             });
+
+            modelBuilder.Entity<ListBackup>(entity =>
+            {
+                entity.HasKey(e => e.id);
+
+                entity.ToTable("list_backup");
+            });
+
 
             // modelBuilder.Entity<Employee>()
             //     .HasOne(e => e.Position)
@@ -76,6 +83,10 @@ namespace HR_Service.Data
                 optionsBuilder.UseNpgsql(Configuration.GetConnectionString("HRServiceDB"));
             }
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public virtual DbSet<ListBackup> list_backup { get; set; }
 
     }
 
