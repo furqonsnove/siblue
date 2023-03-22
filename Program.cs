@@ -13,50 +13,10 @@ builder.Services.AddStackExchangeRedisCache(options => {
     options.Configuration = redisOptions.ToString();
 });
 
-// Check if Redis is connected
-try
-{
-    var db = redis.GetDatabase();
-    var pong = db.Ping();
-    if (pong != TimeSpan.Zero)
-    {
-        Console.WriteLine("Redis is connected.");
-    }
-    else
-    {
-        Console.WriteLine("Redis is not responding.");
-    }
-}
-catch (Exception ex)
-{
-    Console.WriteLine("Failed to connect to Redis: " + ex.Message);
-}
-
-
 // PostgreSQL database
 var connectionString = builder.Configuration.GetConnectionString("HRServiceDB");
 builder.Services.AddTransient<NpgsqlConnection>(_ => new NpgsqlConnection(connectionString));
 
-// Check if PostgreSQL is connected
-try
-{
-    using (var conn = new NpgsqlConnection(connectionString))
-    {
-        conn.Open();
-        if (conn.FullState == ConnectionState.Open)
-        {
-            Console.WriteLine("PostgreSQL is connected.");
-        }
-        else
-        {
-            Console.WriteLine("PostgreSQL is not responding.");
-        }
-    }
-}
-catch (Exception ex)
-{
-    Console.WriteLine("Failed to connect to PostgreSQL: " + ex.Message);
-}
 
 // Add services to the container.
 builder.Services.AddControllers();

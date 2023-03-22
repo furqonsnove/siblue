@@ -1,4 +1,4 @@
-namespace HR_Service.DTO.Masters
+namespace HR_Service.DTO.UserManagement
 {
     public class EmployeeDTO
     {
