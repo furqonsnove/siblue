@@ -23,6 +23,14 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Services\ListBackups\" />
+    <Folder Include="Services\ListBackups\Implementations\" />
+    <Folder Include="Services\ListBackups\Interfaces\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Services\ListBackups\" />
+    <None Remove="Services\ListBackups\Implementations\" />
+    <None Remove="Services\ListBackups\Interfaces\" />
+  </ItemGroup>
 </Project>

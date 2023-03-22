@@ -13,7 +13,7 @@ namespace HR_Service.Models
         public Guid employee_backup_id { get; set; }
         public int level { get; set; }
         public DateTime created_at { get; set; } = DateTime.UtcNow.AddHours(7);
-        public DateTime update_at { get; set; } = DateTime.UtcNow.AddHours(7);
-        public DateTime? delete_at { get; set; }
+        public DateTime updated_at { get; set; } = DateTime.UtcNow.AddHours(7);
+        public DateTime? deleted_at { get; set; }
     }
 }

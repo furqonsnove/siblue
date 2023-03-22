@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HR_Service.Data;
 using HR_Service.Models;
+using HR_Service.Services.ListBackups.Interfaces;
+using HR_Service.Services.ListBackups.Implementations;
 
 namespace HR_Service.Controllers
 {
@@ -15,10 +17,12 @@ namespace HR_Service.Controllers
     public class ListBackupController : ControllerBase
     {
         private readonly ApiDBContext _context;
+        private readonly IListBackupService _list_backup_service;
 
-        public ListBackupController(ApiDBContext context)
+        public ListBackupController(ApiDBContext context, IListBackupService list_backup_service)
         {
             _context = context;
+            _list_backup_service = list_backup_service;
         }
 
         [HttpGet]
@@ -117,6 +121,19 @@ namespace HR_Service.Controllers
                 await _context.SaveChangesAsync();
 
                 return NoContent();
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.InnerException);
+            }
+        }
+
+        [HttpGet("Matrix")]
+        public async Task<ActionResult<IEnumerable<ListBackupMatrix>>> GetListBackupsMatrix()
+        {
+            try
+            {
+                return Ok(await _list_backup_service.GetListBackupMatrix());
             }
             catch (Exception exception)
             {
