@@ -1,4 +1,4 @@
-
+using HR_Service.Models.Masters;
 using Microsoft.EntityFrameworkCore;
 using HR_Service.Models;
 using HR_Service.Models.Enitty;
@@ -10,19 +10,20 @@ namespace HR_Service.Data
     {
         protected readonly IConfiguration Configuration;
 
+        public DbSet<Position>? Positions { get; set; }
+        public DbSet<LogNotification>? LogNotifications { get; set; }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Position> positions => Set<Position>();
+
+
+        public virtual DbSet<LogAudit> log_audit { get; set; }
+
+
         public ApiDBContext(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            // connect to postgres with connection string from app settings
-            options.UseNpgsql(Configuration.GetConnectionString("HRServiceDB"));
-        }
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<Position> positions => Set<Position>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,18 +41,53 @@ namespace HR_Service.Data
 
                 entity.ToTable("users");
             });
+
             modelBuilder.Entity<ListBackup>(entity =>
             {
                 entity.HasKey(e => e.id);
 
                 entity.ToTable("list_backup");
             });
+
+
+            // modelBuilder.Entity<Employee>()
+            //     .HasOne(e => e.Position)
+            //     .WithMany(p => p.Employees)
+            //     .HasForeignKey(e => e.PositionId);
+
+            // modelBuilder.Entity<Employee>()
+            //     .HasOne(e => e.User)
+            //     .WithMany(u => u.Employees)
+            //     .HasForeignKey(e => e.UserId);
+
+            // modelBuilder.Entity<LogNotification>()
+            //     .HasOne(n => n.Employee)
+            //     .WithMany(e => e.Notifications)
+            //     .HasForeignKey(n => n.EmployeeId);
+
+            // modelBuilder.Entity<User>()
+            //     .HasMany(u => u.Employees)
+            //     .WithOne(e => e.User)
+            //     .HasForeignKey(e => e.UserId);
+
+            // modelBuilder.Entity<Position>()
+            //     .HasMany(p => p.Employees)
+            //     .WithOne(e => e.Position)
+            //     .HasForeignKey(e => e.PositionId);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql(Configuration.GetConnectionString("HRServiceDB"));
+            }
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-        public virtual DbSet<LogAudit> log_audit { get; set; }
-
         public virtual DbSet<ListBackup> list_backup { get; set; }
+
     }
+
 }
