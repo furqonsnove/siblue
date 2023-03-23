@@ -23,12 +23,18 @@ public class EmployeeRepository : IEmployeeRepository
         throw new NotImplementedException();
     }
 
-    public bool Create(Employee emp)
+    public async Task<Employee> Create(Employee emp)
     {
-        throw new NotImplementedException();
+        var user = new User();
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        emp.UserId = user.Id;
+        _context.Employees.Add(emp);
+        await _context.SaveChangesAsync();
+        return emp;
     }
 
-    public bool Update(Guid id, Employee emp)
+    public Employee Update(Guid id, Employee emp)
     {
         throw new NotImplementedException();
     }
@@ -37,4 +43,5 @@ public class EmployeeRepository : IEmployeeRepository
     {
         throw new NotImplementedException();
     }
+
 }

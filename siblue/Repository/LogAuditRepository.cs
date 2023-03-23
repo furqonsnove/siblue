@@ -1,10 +1,12 @@
-﻿using siblue.Db;
+﻿using NuGet.Protocol;
+using siblue.Db;
 using siblue.Model;
+using siblue.Service;
 using SQLitePCL;
 
 namespace siblue.Repository
 {
-    public class LogAuditRepository
+    public class LogAuditRepository : ILogAuditRepository
     {
         private readonly ApplicationDbContext _context;
         public LogAuditRepository(ApplicationDbContext context) {
@@ -24,7 +26,16 @@ namespace siblue.Repository
 
         public bool Create(LogAudit laudit)
         {
-            throw new NotImplementedException();
+
+            if (laudit != null) { 
+                _context.LogAudits.Add(laudit);
+                _context.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+
         }
 
         public bool Update(Guid id, LogAudit laudit)

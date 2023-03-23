@@ -1,7 +1,10 @@
 ﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Protocol;
+using siblue.Model;
 using siblue.Service;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,10 +18,13 @@ namespace siblue.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repo;
+        private readonly ILogAuditRepository _repoAudit;
 
-        public AuthController(IAuthRepository repo)
+
+        public AuthController(IAuthRepository repo, ILogAuditRepository repoAudit)
         {
             _repo = repo;
+            _repoAudit = repoAudit;
         }
 
         [HttpPost(Name = "Login")]
@@ -46,6 +52,18 @@ namespace siblue.Controllers
                 token = tokenString
             });
 
+            var laudit = new LogAudit()
+            {
+                Modul = "Authenctication",
+                Activity = "Login",
+                Detail = $"{nik}",
+
+            };
+
+/*            System.Diagnostics.Debug.WriteLine(laudit.ToJson());*/
+
+            _repoAudit.Create(laudit);
+
 
             return new ObjectResult(new Response().Send("Success", data, StatusCodes.Status200OK));
         }
@@ -57,6 +75,18 @@ namespace siblue.Controllers
             var result = _repo.ResetPassword(password, nik);
 
             System.Diagnostics.Debug.WriteLine($"User = {password}");
+
+            var laudit = new LogAudit()
+            {
+                Modul = "Authenctication",
+                Activity = "Reset Password",
+                Detail = $"{nik}",
+
+            };
+
+            /*            System.Diagnostics.Debug.WriteLine(laudit.ToJson());*/
+
+            _repoAudit.Create(laudit);
 
 
             return new ObjectResult(new Response().SendMessage($"{result}", StatusCodes.Status200OK));
@@ -70,6 +100,18 @@ namespace siblue.Controllers
 
             var result = _repo.NewPin(pin, nik);
 
+            var laudit = new LogAudit()
+            {
+                Modul = "Authenctication",
+                Activity = "Create New Pin",
+                Detail = $"{nik}",
+
+            };
+
+            /*            System.Diagnostics.Debug.WriteLine(laudit.ToJson());*/
+
+            _repoAudit.Create(laudit);
+
 
             return new ObjectResult(new Response().SendMessage($"{result}", StatusCodes.Status200OK));
 
@@ -80,6 +122,18 @@ namespace siblue.Controllers
         {
 
             var result = _repo.UpdatePin(pin, nik);
+
+            var laudit = new LogAudit()
+            {
+                Modul = "Authenctication",
+                Activity = "Update Pin",
+                Detail = $"{nik}",
+
+            };
+
+            /*            System.Diagnostics.Debug.WriteLine(laudit.ToJson());*/
+
+            _repoAudit.Create(laudit);
 
 
             return new ObjectResult(new Response().SendMessage($"{result}", StatusCodes.Status200OK));

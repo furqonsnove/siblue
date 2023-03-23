@@ -23,6 +23,10 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ILogAuditRepository, LogAuditRepository>();
+builder.Services.AddScoped<IListBackupRepository, ListBackupRepository>();
+
+
 
 builder.Services.AddSwaggerGen(options =>
 {

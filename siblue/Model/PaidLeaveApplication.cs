@@ -13,7 +13,7 @@ public class PaidLeaveApplication
     public DateTime PaidLeaveStartDate { get; set; }
     public DateTime PaidLeaveEndDate { get; set; }
     public DateTime ExpiredAt { get; set; } = DateTime.Now.AddDays(2);
-    [Timestamp] public DateTime CreatedAt { get; set; } = DateTime.Now;
-    [Timestamp] public DateTime UpdatedAt { get; set; } = DateTime.Now;
+    [Timestamp] public DateTime CreatedAt { get; set; } = DateTime.UtcNow.AddHours(7);
+    [Timestamp] public DateTime UpdatedAt { get; set; } = DateTime.UtcNow.AddHours(7);
     [Timestamp] public DateTime? DeletedAt { get; set; }
 }

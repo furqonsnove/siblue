@@ -4,11 +4,11 @@ namespace siblue.Model;
 
 public class LogAudit
 {
-    public Guid Id { get; set; }
-    public string? Modul { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Modul { get; set; }
     public string? Activity { get; set; }
     public string? Detail { get; set; }
-    [Timestamp] public DateTime CreatedAt { get; set; } = DateTime.Now;
-    [Timestamp] public DateTime UpdatedAt { get; set; } = DateTime.Now;
-    [Timestamp] public DateTime? DeletedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow.AddHours(7);
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow.AddHours(7);
+    public DateTime? DeletedAt { get; set; }
 }

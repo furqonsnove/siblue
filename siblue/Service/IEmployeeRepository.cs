@@ -6,7 +6,8 @@ public interface IEmployeeRepository
 {
     public IEnumerable<Employee> Get();
     public Employee GetById(Guid id);
-    public bool Create(Employee emp);
-    public bool Update(Guid id, Employee emp);
+    public Task<Employee> Create(Employee emp);
+    public Employee Update(Guid id, Employee emp);
     public bool Delete(Guid id);
+
 }
