@@ -17,7 +17,6 @@ namespace HR_Service.Data
         public DbSet<Position> positions => Set<Position>();
 
 
-        public virtual DbSet<LogAudit> log_audit { get; set; }
 
 
         public ApiDBContext(IConfiguration configuration)
