@@ -49,7 +49,7 @@ namespace HR_Service.Migrations
                     b.HasIndex("code")
                         .IsUnique();
 
-                    b.ToTable("positions");
+                    b.ToTable("Position");
                 });
 
             modelBuilder.Entity("HR_Service.Models.LogAudit", b =>
@@ -82,6 +82,35 @@ namespace HR_Service.Migrations
                     b.HasKey("id");
 
                     b.ToTable("log_audit", (string)null);
+                });
+
+            modelBuilder.Entity("HR_Service.Models.Masters.LogNotification", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("created_at")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("deleted_at")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("employee_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("notification_body")
+                        .HasColumnType("text");
+
+                    b.Property<string>("notification_title")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("updated_at")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("id");
+
+                    b.ToTable("LogNotifications");
                 });
 
             modelBuilder.Entity("HR_Service.Models.User", b =>
