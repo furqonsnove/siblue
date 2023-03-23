@@ -19,7 +19,7 @@ var redis = ConnectionMultiplexer.Connect(redisOptions.ToString());
 builder.Services.AddSingleton<IConnectionMultiplexer>(redis);
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-  options.Configuration = redisOptions.ToString();
+    options.Configuration = redisOptions.ToString();
 });
 
 // PostgreSQL database
@@ -33,7 +33,7 @@ builder.Services.AddDbContext<ApiDBContext>();
 builder.Services.AddScoped<ILogNotifService, LogNotifService>();
 builder.Services.AddAutoMapper(typeof(MasterMaps).Assembly);
 builder.Services.AddScoped<IPosition, PositionService>();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -41,7 +41,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApiDBContext>(options =>
 {
-  options.UseNpgsql(builder.Configuration.GetConnectionString("HRServiceDB"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("HRServiceDB"));
 });
 
 
@@ -50,8 +50,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.UseSwagger();
-  app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
